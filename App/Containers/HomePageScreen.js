@@ -1,37 +1,49 @@
 import React, { Component } from 'react'
 import { View, Button, TextInput } from 'react-native'
+import { Field, reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
+
+import HomePageActions from '../Redux/HomePageRedux'
 
 // Styles
 import styles from './Styles/HomePageScreenStyle'
 
 class HomePageScreen extends Component {
   static navigationOptions = ({ navigation }) => {
-
     return {
       headerTitle: 'Home Page'
     }
   }
 
-  onInputChange = (event) => {
-    console.log(event)
+  componentDidMount() {
+    // console.log('props', this.props)
   }
 
-  handleOnCreate = () => {
-    console.log('created')
+  handleOnCreate = (value) => {
+    const { onCreateNote, clearInput } = this.props
+    onCreateNote(value)
+    clearInput()
+  }
+
+  renderInput = ({ input: { onChange, ...restInput } }) => {
+    return <TextInput onChangeText={onChange} {...restInput} />
   }
 
   render() {
+    const { handleSubmit } = this.props
+
     return (
       <View style={styles.container}>
-        <TextInput
-          onChangeText={this.onInputChange}
-        />
+        <View style={styles.inputWrapper}>
+          <Field name="note" component={this.renderInput} />
+          <Button
+            title="Create"
+            onPress={handleSubmit(this.handleOnCreate)}
+          />
+        </View>
         <Button
-          title='Create'
-          onPress={this.handleOnCreate}
+          title="Show notes"
+          style={styles.showNotesBtn}
         />
       </View>
     )
@@ -40,12 +52,27 @@ class HomePageScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    notes: state.homepage.notes
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onCreateNote: (value) => {
+      console.log('from dispatch', value.note)
+      dispatch(HomePageActions.saveNewNote(value.note))
+    },
+    clearInput: () => {
+      dispatch(reset('note'))
+    }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageScreen)
+HomePageScreen = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePageScreen)
+
+export default reduxForm({
+  form: 'note'
+})(HomePageScreen)

@@ -6,5 +6,14 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch'
+  },
+  inputWrapper: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'stretch'
+  },
+  showNotesBtn: {
+    flex: 1,
+    alignItems: 'stretch'
   }
 })
