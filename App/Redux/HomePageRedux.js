@@ -12,15 +12,13 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = {
-  notes: ['test note1', 'test note2'],
+  notes: [],
 }
 
 /* ------------- Reducers ------------- */
 
 export const saveNote = (state, { note }) => {
   if (note) {
-    console.log('state from reducer', state)
-    console.log('note from reducer', note)
     return { notes: [...state.notes, note] }
   }
   return state

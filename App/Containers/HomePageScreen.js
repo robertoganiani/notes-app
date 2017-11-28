@@ -9,7 +9,7 @@ import HomePageActions from '../Redux/HomePageRedux'
 import styles from './Styles/HomePageScreenStyle'
 
 class HomePageScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = () => {
     return {
       headerTitle: 'Home Page'
     }
@@ -42,6 +42,7 @@ class HomePageScreen extends Component {
           />
         </View>
         <Button
+          onPress={() => this.props.navigation.navigate('NotesListScreen')}
           title="Show notes"
           style={styles.showNotesBtn}
         />
@@ -59,7 +60,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onCreateNote: (value) => {
-      console.log('from dispatch', value.note)
       dispatch(HomePageActions.saveNewNote(value.note))
     },
     clearInput: () => {
