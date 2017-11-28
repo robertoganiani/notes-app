@@ -89,6 +89,7 @@ class NotesListScreen extends Component {
           contentContainerStyle={styles.container}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
+          enableEmptySections
         />
         {this.renderModal()}
       </View>
